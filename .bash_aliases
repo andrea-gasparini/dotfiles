@@ -1,8 +1,42 @@
 alias python='python3'
 
+alias hist-grep='history | grep'
 alias grep-hist='history | grep'
 
 alias ssh-vm='ssh $VM_USER@$VM_IP'
+
+###### Git aliases ######
+
+alias git-amend='git commit --amend'
+
+git_undo() {
+    # Defaults to undoing the last commit if no argument is provided
+    # otherwise undoes last N commits
+    local count="${1:-1}"
+    git reset --soft HEAD~"$count"
+}
+
+alias git-undo='git_undo'
+
+git_rebase() {
+    # Check if an argument is provided
+    if [ -z "$1" ]; then
+        echo "Usage: git-rebase <commit_id|number>"
+        return 1
+    fi
+    
+    # If the argument is a number
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+        # Rebase (interactively) last N commits as "HEAD~$N"
+        git rebase -i HEAD~"$1"
+    else
+        # Otherwise assume is a commit ID
+        # and rebase commits until that one as "$commit_id^"
+        git rebase -i "$1"^
+    fi
+}
+
+alias git-rebase='git_rebase'
 
 ###### Conda aliases ######
 
