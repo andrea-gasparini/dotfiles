@@ -1,0 +1,7 @@
+[core]
+	excludesfile = /home/andrea/.gitignore_global
+[user]
+	name = Andrea Gasparini
+	email = andrea.gasparini11@gmail.com
+[push]
+	autoSetupRemote = true
