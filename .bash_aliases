@@ -8,6 +8,18 @@ alias ssh-vm='ssh $VM_USER@$VM_IP'
 ###### Git aliases ######
 
 alias git-amend='git commit --amend'
+alias git-amend-fpush='git-amend --no-edit && git push -f'
+
+git_branch_rm() {
+    # Check if the branch name is provided
+    if [ -z "$1" ]; then
+        echo "Usage: git-branch-rm <branch_name>"
+        return 1
+    fi
+    git branch -d "$1" && git push origin --delete "$1" && git fetch --prune
+}
+
+alias git-branch-rm='git_branch_rm'
 
 git_undo() {
     # Defaults to undoing the last commit if no argument is provided
@@ -37,6 +49,17 @@ git_rebase() {
 }
 
 alias git-rebase='git_rebase'
+
+git_clone() {
+    # Check if the repository name is provided
+    if [ -z "$1" ]; then
+        echo "Usage: git-clone <repo_name>"
+        return 1
+    fi
+    git clone "git@github.com:$GIT_CLONE_USER/$1.git"
+}
+
+alias git-clone='git_clone'
 
 ###### Conda aliases ######
 
