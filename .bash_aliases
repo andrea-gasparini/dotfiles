@@ -1,9 +1,47 @@
-alias python='python3'
-
 alias hist-grep='history | grep'
 alias grep-hist='history | grep'
 
-alias ssh-vm='ssh $VM_USER@$VM_IP'
+alias ssh-vm="ssh $VM_USER@$VM_IP"
+
+###### Python aliases ######
+
+alias python='python3'
+alias py='python'
+
+py_init() {
+    # Check if the project name is provided
+    if [ -z "$1" ]; then
+        echo "Usage: py-init <project_name>"
+        return 1
+    fi
+    uvx copier copy --trust gh:$GIT_CLONE_USER/py-template "$1"
+}
+
+alias py-init='py_init'
+
+py_venv() {
+    # Check if a Python version is provided
+    if [ -z "$1" ]; then
+        python -m venv .venv
+    else
+        # Validate version format (e.g., 3.12, 3.11)
+        if [[ "$1" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            # Check if the python version command exists
+            if command -v "python$1" > /dev/null 2>&1; then
+                python"$1" -m venv .venv
+            else
+                echo "Error: python$1 is not available on this system"
+                return 1
+            fi
+        else
+            echo "Error: Invalid Python version format. Use format like 3.12, 3.11, etc."
+            return 1
+        fi
+    fi
+    source .venv/bin/activate
+}
+
+alias py-venv='py_venv'
 
 ###### Git aliases ######
 
