@@ -61,6 +61,8 @@ alias py-venv='py_venv'
 alias git-amend='git commit --amend'
 alias git-amend-fpush='git-amend --no-edit && git push -f'
 
+alias git-prune='git fetch --prune'
+
 git_branch_rm() {
     local usage_msg="Usage: git-branch-rm [-D] <branch_name>"
 
