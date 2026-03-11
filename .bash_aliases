@@ -11,10 +11,23 @@ alias py='python'
 py_init() {
     # Check if the project name is provided
     if [ -z "$1" ]; then
-        echo "Usage: py-init <project_name>"
+        echo "Usage: py-init <project_name> [--git-ref <branch|tag|HEAD>]"
         return 1
     fi
-    uvx copier copy --trust gh:$GIT_CLONE_USER/py-template "$1"
+    
+    local project_name="$1"
+    local git_ref=""
+    
+    # Parse optional --git-ref argument
+    if [ -n "$2" ] && [ "$2" = "--git-ref" ]; then
+        if [ -z "$3" ]; then
+            echo "Error: --git-ref requires a value (branch, tag, or HEAD)"
+            return 1
+        fi
+        git_ref="$3"
+    fi
+    
+    uvx copier copy --trust "gh:$GIT_CLONE_USER/py-template" "$project_name" --vcs-ref $git_ref
 }
 
 alias py-init='py_init'
