@@ -62,12 +62,33 @@ alias git-amend='git commit --amend'
 alias git-amend-fpush='git-amend --no-edit && git push -f'
 
 git_branch_rm() {
+    local usage_msg="Usage: git-branch-rm [-D] <branch_name>"
+
     # Check if the branch name is provided
     if [ -z "$1" ]; then
-        echo "Usage: git-branch-rm <branch_name>"
+        echo "$usage_msg"
         return 1
     fi
-    git branch -d "$1" && git push origin --delete "$1" && git fetch --prune
+
+    local force_flag="-d"
+    local branch_name=""
+    
+    # Parse arguments to handle -D flag in first or second position
+    if [ "$1" = "-D" ]; then
+        force_flag="-D"
+        branch_name="$2"
+        if [ -z "$branch_name" ]; then
+            echo "$usage_msg"
+            return 1
+        fi
+    elif [ "$2" = "-D" ]; then
+        force_flag="-D"
+        branch_name="$1"
+    else
+        branch_name="$1"
+    fi
+    
+    git branch "$force_flag" "$branch_name" && git push origin --delete "$branch_name" && git fetch --prune
 }
 
 alias git-branch-rm='git_branch_rm'
