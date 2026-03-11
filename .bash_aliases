@@ -1,5 +1,6 @@
 alias hist-grep='history | grep'
-alias grep-hist='history | grep'
+alias grep-hist='hist-grep'
+alias hg='hist-grep'
 
 alias ssh-vm="ssh $VM_USER@$VM_IP"
 
@@ -58,8 +59,20 @@ alias py-venv='py_venv'
 
 ###### Git aliases ######
 
+alias gp='git push'
+alias gpf='gp -f'
+
+alias gs='git switch'
+alias gsd='git switch develop && git pull'
+alias gsm='git switch main && git pull'
+
 alias git-amend='git commit --amend'
+alias ga='git-amend'
 alias git-amend-fpush='git-amend --no-edit && git push -f'
+alias gafp='git-amend-fpush'
+
+alias git-prune='git fetch --prune'
+alias gpr='git-prune'
 
 git_branch_rm() {
     local usage_msg="Usage: git-branch-rm [-D] <branch_name>"
@@ -92,6 +105,7 @@ git_branch_rm() {
 }
 
 alias git-branch-rm='git_branch_rm'
+alias gbr='git-branch-rm'
 
 git_undo() {
     # Defaults to undoing the last commit if no argument is provided
@@ -101,8 +115,9 @@ git_undo() {
 }
 
 alias git-undo='git_undo'
+alias gu='git-undo'
 
-git_rebase() {
+git_rebase_interactive() {
     # Check if an argument is provided
     if [ -z "$1" ]; then
         echo "Usage: git-rebase <commit_id|number>"
@@ -120,7 +135,10 @@ git_rebase() {
     fi
 }
 
-alias git-rebase='git_rebase'
+alias git-rebase-i='git_rebase_interactive'
+alias gri='git-rebase-i'
+
+alias gr='git rebase'
 
 git_clone() {
     # Check if the repository name is provided
@@ -132,6 +150,7 @@ git_clone() {
 }
 
 alias git-clone='git_clone'
+alias gc='git-clone'
 
 ###### Conda aliases ######
 
