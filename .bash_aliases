@@ -108,10 +108,29 @@ alias git-branch-rm='git_branch_rm'
 alias gbr='git-branch-rm'
 
 git_undo() {
-    # Defaults to undoing the last commit if no argument is provided
-    # otherwise undoes last N commits
-    local count="${1:-1}"
-    git reset --soft HEAD~"$count"
+    # Undo the last N commits with specified reset mode
+    # Usage: git-undo [--soft|--hard|--mixed] [count]
+    # Defaults: --soft mode, count=1
+    # Examples:
+    #   git-undo          -> git reset --soft HEAD~1
+    #   git-undo 3        -> git reset --soft HEAD~3
+    #   git-undo --hard   -> git reset --hard HEAD~1
+    #   git-undo --hard 2 -> git reset --hard HEAD~2
+    #   git-undo 2 --hard -> git reset --hard HEAD~2
+    
+    local reset_mode="--soft"
+    local count="1"
+    
+    # Parse arguments in any order
+    for arg in "$@"; do
+        if [[ "$arg" == "--soft" || "$arg" == "--hard" || "$arg" == "--mixed" ]]; then
+            reset_mode="$arg"
+        elif [[ "$arg" =~ ^[0-9]+$ ]]; then
+            count="$arg"
+        fi
+    done
+    
+    git reset "$reset_mode" HEAD~"$count"
 }
 
 alias git-undo='git_undo'
@@ -139,6 +158,8 @@ alias git-rebase-i='git_rebase_interactive'
 alias gri='git-rebase-i'
 
 alias gr='git rebase'
+
+alias grd='git rebase develop'
 
 git_clone() {
     # Check if the repository name is provided
