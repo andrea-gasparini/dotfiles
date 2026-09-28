@@ -5,3 +5,9 @@
 	email = andrea.gasparini11@gmail.com
 [push]
 	autoSetupRemote = true
+[pull]
+  autostash = true
+# [rebase]
+#   autostash = true
+# [merge]
+#   autostash = true
