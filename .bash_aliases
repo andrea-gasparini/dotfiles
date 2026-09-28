@@ -2,7 +2,7 @@ alias hist-grep='history | grep'
 alias grep-hist='hist-grep'
 alias hg='hist-grep'
 
-alias ssh-vm="ssh $VM_USER@$VM_IP"
+alias ssh-vm='ssh "$VM_USER"@"$VM_IP"'
 
 ###### Python aliases ######
 
