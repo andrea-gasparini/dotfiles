@@ -57,6 +57,12 @@ py_venv() {
 
 alias py-venv='py_venv'
 
+###### GitHub aliases ######
+
+alias gh-create-pr='gh pr create --base develop --assignee @me'
+alias gh-pr-copilot-review='gh api --method POST /repos/$1/pulls/$2/requested_reviewers -f "reviewers[]=copilot-pull-request-reviewer[bot]"'
+# Usage: gh-pr-copilot-review <gh-repo-user>/<repo-name> <pr-number>
+
 ###### Git aliases ######
 
 alias gp='git push'
